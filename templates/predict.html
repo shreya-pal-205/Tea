@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <h2>🌿 TeaCare AI</h2>
+    <ul>
+        <li><a href="/">Home</a></li>
+    </ul>
+</nav>
+
+<!-- MAIN CONTAINER -->
+<div class="container">
+
+    <!-- UPLOAD CARD -->
+    <div class="card upload-card">
+        <h2>📸 Upload Tea Leaf Image</h2>
+
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" required>
+            <button type="submit">🔍 Predict Disease</button>
+        </form>
+    </div>
+
+
+
+
+
+
+    {% if prediction %}
+    <!-- RESULT CARD -->
+    <div class="card result-card">
+
+        <!-- TITLE -->
+        <h2 class="result-title">
+            🌿 {{ prediction.replace('_', ' ') }}
+            <span class="severity">({{ severity }})</span>
+        </h2>
+
+        <!-- IMAGE -->
+        <img src="/{{ image_path }}" class="result-img">
+
+        <!-- CONFIDENCE -->
+        <div class="confidence-section">
+            <p>Confidence: <strong>{{ confidence }}%</strong></p>
+            <div class="progress-bar">
+                <div class="progress" style="width: {{ confidence }}%"></div>
+            </div>
+        </div>
+
+        <!-- REMEDY GRID -->
+        <div class="remedy-grid">
+
+            <div class="remedy-box" onclick="openModal('treatment')">
+    <h3>💊 Treatment</h3>
+    <p>{{ remedy.treatment }}</p>
+</div>
+
+<div class="remedy-box" onclick="openModal('organic')">
+    <h3>🌱 Organic</h3>
+    <p>{{ remedy.organic }}</p>
+</div>
+
+<div class="remedy-box" onclick="openModal('chemical')">
+    <h3>🧪 Chemical</h3>
+    <p>{{ remedy.chemical }}</p>
+</div>
+
+<div class="remedy-box" onclick="openModal('recovery')">
+    <h3>⏳ Recovery</h3>
+    <p>{{ remedy.recovery }}</p>
+</div>
+
+        </div>
+
+    </div>
+    {% endif %}
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <p>🌱 AI Powered Smart Farming | TeaCare AI</p>
+</footer>
+
+
+<!-- POPUP MODAL -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+
+        <span class="close" onclick="closeModal()">×</span>
+
+        <h2 id="modalTitle"></h2>
+        <p id="modalText"></p>
+        <img id="modalImg">
+
+    </div>
+</div>
+
+
+
+
+<script>
+function openModal(type) {
+
+    const modal = document.getElementById("modal");
+    const title = document.getElementById("modalTitle");
+    const text = document.getElementById("modalText");
+    const img = document.getElementById("modalImg");
+
+    modal.style.display = "flex";
+
+    if (type === "treatment") {
+        title.innerText = "💊 Treatment Details";
+        text.innerHTML = `
+            • Remove infected leaves immediately<br>
+            • Maintain proper irrigation<br>
+            • Apply balanced fertilizers
+        `;
+        img.src = "https://www.agrifarming.in/wp-content/uploads/2020/05/Fungicide-Spray.jpg";
+    }
+
+    if (type === "organic") {
+        title.innerText = "🌱 Organic Treatment";
+        text.innerHTML = `
+            • Neem oil spray<br>
+            • Garlic-chili extract<br>
+            • Cow dung compost
+        `;
+        img.src = "https://www.agrifarming.in/wp-content/uploads/2021/06/Organic-Farming.jpg";
+    }
+
+    if (type === "chemical") {
+        title.innerText = "🧪 Chemical Treatment";
+        text.innerHTML = `
+            • Copper fungicide application<br>
+            • Mancozeb spray<br>
+            • Use only in severe infection cases
+        `;
+        img.src = "https://www.agrifarming.in/wp-content/uploads/2020/05/Fungicide-Spray.jpg";
+    }
+
+    if (type === "recovery") {
+        title.innerText = "⏳ Recovery Measures";
+        text.innerHTML = `
+            • Improve soil drainage<br>
+            • Avoid overwatering<br>
+            • Monitor plant health regularly
+        `;
+        img.src = "https://www.agrifarming.in/wp-content/uploads/2020/06/Plant-Recovery.jpg";
+    }
+}
+
+function closeModal() {
+    document.getElementById("modal").style.display = "none";
+}
+
+// close when clicking outside modal
+window.onclick = function(event) {
+    const modal = document.getElementById("modal");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+
+
+
+</body>
+</html>
+
+

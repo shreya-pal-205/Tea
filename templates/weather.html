@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TeaCare AI - Smart Farming Dashboard</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+            color: #2e2e2e;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            background: rgba(34, 139, 34, 0.9);
+            color: white;
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* HERO WEATHER SECTION */
+        .hero-weather {
+            margin: 30px;
+            padding: 30px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .weather-left h1 {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .weather-left p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .weather-box {
+            text-align: right;
+        }
+
+        .temp {
+            font-size: 48px;
+            font-weight: 600;
+        }
+
+        .weather-details {
+            font-size: 16px;
+            margin-top: 5px;
+        }
+
+        /* MAIN LAYOUT */
+        .main-layout {
+            display: flex;
+            padding: 20px 40px;
+            gap: 30px;
+        }
+
+        .left-panel {
+            flex: 2;
+        }
+
+        .right-panel {
+            flex: 1;
+        }
+
+        .page-title {
+            font-size: 26px;
+            margin-bottom: 20px;
+            color: #1b5e20;
+        }
+
+        /* GRID CARDS */
+        .grid-2x2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        .tea-image {
+            width: 100%;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            margin-top: 30px;
+            background: #1b5e20;
+            color: white;
+        }
+
+        @media (max-width: 900px) {
+            .main-layout {
+                flex-direction: column;
+            }
+
+            .grid-2x2 {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-weather {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .weather-box {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <h2>🌿 TeaCare AI</h2>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/predict">Predict</a></li>
+    </ul>
+</nav>
+
+<!-- 🌤️ HERO WEATHER SECTION (FOCUS FIRST) -->
+<div class="hero-weather">
+
+    <div class="weather-left">
+        <h1>🌦️ Live Climate Intelligence</h1>
+        <p>Real-time weather insights for smart tea farming decisions ☁️🌱</p>
+    </div>
+
+    <div class="weather-box">
+        <div class="temp" id="heroTemp">-- ☀️</div>
+        <div class="weather-details" id="heroWeather">
+            🌡️ Loading weather... 🌧️
+        </div>
+    </div>
+
+</div>
+
+<div class="main-layout">
+
+    <!-- LEFT SIDE -->
+    <div class="left-panel">
+
+        <h1 class="page-title">🗺️ Smart Farming Insights Dashboard</h1>
+
+        <div class="grid-2x2">
+
+            <div class="card">
+                <h3>📍 Location</h3>
+                <p id="location">Detecting location...</p>
+            </div>
+
+            <div class="card">
+                <h3>⚠️ Disease Risk</h3>
+                <p id="risk">Analyzing crop health...</p>
+            </div>
+
+            <div class="card">
+                <h3>🌱 Farming Advice</h3>
+                <p id="advice">Generating recommendations...</p>
+            </div>
+
+            <div class="card">
+                <h3>🌿 TeaCare Status</h3>
+                <p>AI monitoring active ✔️</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="right-panel">
+        <img src="https://www.nativeplanet.com/img/2013/08/27-assam1.jpg" class="tea-image">
+    </div>
+
+</div>
+
+<footer>
+    <p>🌱 AI Powered Smart Farming | TeaCare AI</p>
+</footer>
+
+<script>
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        document.getElementById("location").innerText =
+            `Latitude: ${lat.toFixed(2)}, Longitude: ${lon.toFixed(2)}`;
+
+        fetch("/weather", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ lat: lat, lon: lon })
+        })
+        .then(res => res.json())
+        .then(data => {
+
+            // HERO WEATHER UPDATE
+            document.getElementById("heroTemp").innerText =
+                `${data.temp}°C ${getWeatherIcon(data.condition)}`;
+
+            document.getElementById("heroWeather").innerText =
+                `${data.condition} | 💧 Humidity: ${data.humidity}`;
+
+            // CARDS
+            document.getElementById("risk").innerText = data.risk;
+            document.getElementById("advice").innerText = data.advice;
+
+        });
+
+    });
+}
+
+// simple weather icon logic
+function getWeatherIcon(condition) {
+    condition = condition.toLowerCase();
+
+    if (condition.includes("rain")) return "🌧️";
+    if (condition.includes("cloud")) return "☁️";
+    if (condition.includes("sun")) return "☀️";
+    if (condition.includes("storm")) return "⛈️";
+
+    return "🌤️";
+}
+</script>
+
+</body>
+</html>
