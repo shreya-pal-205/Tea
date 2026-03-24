@@ -1,15 +1,6 @@
 .env
-
 .venv/
-
-
-__pycache__/
-*.pyc
-
-
 *.h5
 *.pt
 *.pth
-
-
-.DS_Store
+__pycache__/
