@@ -6,8 +6,12 @@ import os
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.applications.inception_v3 import preprocess_input
 import requests
+from dotenv import load_dotenv
 
-API_KEY = "3216916a7343004f4b6944ba5b9a5cfb"
+load_dotenv()
+
+API_KEY = os.getenv("API_KEY")
+
 
 app = Flask(__name__)
 
